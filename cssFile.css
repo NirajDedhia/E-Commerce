@@ -1,0 +1,208 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Times New Roman";
+}
+
+/* The grid: Three equal columns that floats next to each other */
+.column {
+    float: left;
+    padding: 5px;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+}
+
+.emptyCartMsg {
+    text-align: center;
+    font-size: 25px;
+    padding: 20px;
+    font-family: "Times New Roman";
+}
+
+.containerTab {
+    padding: 20px;
+    color: white;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Closable button inside the container tab */
+.closebtn {
+    float: right;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+a {
+    color:white;
+    font-family: "Times New Roman";
+    text-underline-position: unset;
+}
+
+a:link    {
+    text-decoration:  none;
+}
+
+.productBlock
+{
+    margin:2%; 
+    color: white; 
+    border:1px solid #204060; 
+    border-radius:15px; 
+    position:relative;
+    width:90%;
+}
+
+#footerId {
+    width: 30%;
+    height: 10vh;
+    background-color: #4CAF50;
+    font-family: "Times New Roman";
+    border-radius: 15px;
+    font-size: 35px;
+    color: rgb(240, 240, 247);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center
+    
+}
+
+#footerId a {
+    color:white;
+}
+
+#footerId a:hover {
+    color:darkblue;
+}
+
+button.displayed
+{
+    display: block;
+}
+
+#prods 
+{
+    font-family: "Times New Roman";
+    border-collapse: collapse;
+    width: 90%;
+    margin: 5%
+}
+
+#prods td, #prods th 
+{
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#prods tr:nth-child(even)
+{
+    background-color: #f2f2f2;
+}
+
+#prods tr:hover 
+{
+    background-color: #ddd;
+}
+
+#prods th 
+{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.loginTable
+{
+    position: relative; 
+    border: 1px solid; 
+    margin-left: auto;
+    margin-right: auto; 
+    background: #4CAF50; 
+    /* display: inline-block;  */
+    width:50vw;
+    min-width: 350px;
+    margin-top: 30vh;
+    padding: 3%;
+    overflow: hidden;
+    color: white;
+}
+
+.loginTable td {
+    padding: 1%;
+}
+
+.addProductTable
+{
+    position: relative; 
+    border: 1px solid; 
+    margin-left: auto;
+    margin-right: auto; 
+    background: #4CAF50; 
+    width:50vw;
+    min-width: 350px;
+    margin-top: 5vh;
+    padding: 1%;
+    overflow: hidden;
+}
+
+.addProductTable td {
+    padding: 0.5%;
+}
+
+.detailTitle {
+    color: white;
+}
+
+#nav
+{
+    height: 12vh;
+    background-color: #4CAF50;
+    display: -webkit-flex; /* Safari */
+    -webkit-align-items: center; /* Safari 7.0+ */
+    display: flex;
+    align-items: center;
+}
+
+#nav div 
+{
+    -webkit-flex: 1; /* Safari 6.1+ */
+    flex: 1;
+}
+
+.navTitleLeft
+{
+    font-family: "Times New Roman";
+    color: white;
+    font-size: 35px;
+    text-align:left;
+    padding-left: 3%;
+}
+
+.navTitleCenter
+{
+    color: white;
+    font-family: "Times New Roman";
+    font-size: 35px;
+    text-align:center;
+}
+
+.navTitleRight
+{
+    text-align:right;
+    padding-right: 3%;
+}
