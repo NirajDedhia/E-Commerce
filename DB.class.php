@@ -287,9 +287,17 @@ class DB{
         }
     }
 
-    // function addProductToSale() {
+    function addProductToSale($pName, $descr, $price, $quantity, $imageName, $sale) {
+        try{
+            $stmt = $this->db->prepare("INSERT INTO product (productName, description, price, quantity, imageName, salePrice) VALUES (:productName, :description, :price, :quantity, :imageName, :sale) ");
+            
+            $stmt->execute(array("productName"=>$pName, "description"=>$descr, "price"=>$price, "quantity"=>$quantity, "imageName"=>$imageName, "sale"=>$sale));
 
-    //}
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            die();
+        }
+    }
 
 }
 

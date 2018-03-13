@@ -28,19 +28,26 @@
             $name = $_POST["pName"];
             $price = $_POST["price"];
             $quantity = $_POST["quantity"];
-            $sale = $_POST["sale"];
+            $sale = (isset($_POST["sale"]))?$_POST["sale"]:"";
             $description = $_POST["description"];
+            $imageName = "dummyProduct";
 
             $name = sanatize($name);
             $price = sanatize($price);
             $quantity = sanatize($quantity);
             $sale = sanatize($sale);
             $description = sanatize($description);
+            $imageName = sanatize($imageName);
             
-            validate();
-            
-            
+            $result = validate($name, $price, $quantity, $sale, $description, $imageName);
 
+            if($result[0] == 'true')
+                echo $result[1];
+            else {
+                $dbc->addProductToSale($name, $description, $price, $quantity, $imageName, $sale);
+                header("location:index.php");
+            }
+            
         } // End If Post
         
         if(isset($_GET['logout']))
@@ -57,11 +64,50 @@
     }
 
     function sanatize($variable) {
+        $variable = trim($variable);
+        $variable = strip_tags($variable);
+        $variable = stripslashes($variable);
         return $variable;
     }
 
-    function validate() {
+    function validate($name, $price, $quantity, $sale, $description, $imageName) {
+        $result = array();
+        $errorMessage = "";
+        $result[0] = 'false';
+        
+        if($name == "" || $name == null) {
+            $result[0] = 'true';
+            $errorMessage .= "Name is not entered \n ";
+        }
+        
+        if($price == "" || $price == null) {
+            $result[0] = 'true';
+            $errorMessage .= "Price is not specified \n ";
+        }
 
+        if($quantity == "" || $quantity == null) {
+            $result[0] = 'true';
+            $errorMessage .= "Quantity is not specified \n ";
+        }
+
+        if($sale == "" || $sale == null) {
+            $result[0] = 'true';
+            $errorMessage .= "Sale is not specified \n ";
+        }
+
+        if($description == "" || $description == null) {
+            $result[0] = 'true';
+            $errorMessage .= "Description is not specified \n ";
+        }
+
+        if($imageName == "" || $imageName == null) {
+            $result[0] = 'true';
+            $errorMessage .= "Image is not selected \n ";
+        }
+
+        $result[1] = $errorMessage;
+
+        return $result;
     }
 
 ?>

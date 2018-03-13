@@ -17,7 +17,7 @@
                     <div class=\"navTitleLeft\">Welcome</div>
                     <div class=\"navTitleCenter\">E-COMM</div>
                     <div class=\"navTitleRight\">
-                        <a class=\"btn btn-info btn-md\" onclick=\"logout('".$this->pages[$page]."')\">
+                        <a class=\"btn btn-info btn-md w3-blue-grey\" onclick=\"logout('".$this->pages[$page]."')\">
                             <span class=\"glyphicon glyphicon-log-out\"></span> Log out
                         </a>
                     </div>
@@ -73,7 +73,7 @@
         }
 
         function format($product, $page){
-            $bigString ="<div style=\"padding-left: 2%; width:33.33%; float:left; height:130vh;\">
+            $bigString ="<div style=\"padding-left: 2%; width:33.33%; float:left; height:110vh;\">
                     <div class=\"w3-card-4 w3-dark-grey productBlock\">
                         <div class=\"w3-container w3-center\">
                             <h3>".$product->getProductName()."</h3>
@@ -141,7 +141,7 @@
 
         function returnColor($section, $currentSection){
             if($section == $currentSection)
-                return "#2B547E";
+                return "#607d8b";
             return "#B6B6B4";
         }
 
@@ -185,7 +185,7 @@
                                         <tr>
                                             <td></td>
                                             <td>
-                                                <input class=\"w3-button w3-yellow\" type=\"submit\" name=\"login\" value=\"Login\"> </td>
+                                                <input class=\"w3-button w3-blue-grey\" type=\"submit\" name=\"login\" value=\"Login\"> </td>
                                             </tr>
                                     </table>
                                 </form>
@@ -255,7 +255,7 @@
                                             </tr>
                                             <tr>
                                                 <td></td>
-                                                <td> <input class=\"w3-button w3-yellow\" type=\"submit\" name=\"save\" value=\"Add Product\"> </td>
+                                                <td> <input class=\"w3-button w3-blue-grey\" type=\"submit\" name=\"save\" value=\"Add Product\"> </td>
                                             </tr>
                                         </table>
                                     </form>

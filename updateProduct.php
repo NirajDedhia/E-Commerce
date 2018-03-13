@@ -37,6 +37,7 @@
             if($response)
                 header("location:updateProduct.php");
             else
+                //echo "Total number of products in sale must be in the range from 3 to 5";
                 header("location:updateProduct.php");
         }
 
@@ -47,6 +48,7 @@
             if($response)
                 header("location:updateProduct.php");
             else
+                //echo "Sorry! can't delete this product. Deleting this product impact sale quantity";
                 header("location:updateProduct.php");
         }
 
