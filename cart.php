@@ -28,6 +28,12 @@
         $lib = new LIB();
         $userId = $_COOKIE['user'];
 
+        // Clear cart
+        if(isset($_POST['clear']))
+        {
+            $dbc->clearCart($userId);
+        }
+
         // Delete from cart
         if(isset($_GET['delete']))
         {
@@ -37,7 +43,6 @@
         // Update from cart
         if(isset($_GET['update']))
         {   
-            //echo();
             $dbc->updateProductInCart($_GET['id'], $userId, $_GET['quantity']*-1);
             header("location:cart.php");
         }

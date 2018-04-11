@@ -86,7 +86,7 @@
                             
                             <div class=\"w3-section\">
                                 <button onclick = \"addToCart(".$product->getProductId().",'".$this->pages[$page]."')\" class=\"w3-button w3-grey\">
-                                            Add To Cart
+                                            Buy
                                 </button>
                             </div>
                         </div>
@@ -136,6 +136,10 @@
                             </tr>";
 
             $bigString .= "</table>";
+            $bigString .= "</ br>
+                                <button onclick = \"clearCart()\" class=\"w3-button w3-red\">
+                                Empty Cart
+                            </button>";
             return $bigString;
         }
 
@@ -216,12 +220,12 @@
             if($page == 3)
             {
                     $bigString .= "  <div class=\"addProductTable\">
-                                    <form method=\"post\" action=\"admin.php\">
+                                    <form method=\"post\" action=\"admin.php\" enctype=\"multipart/form-data\">
                                         <table  style=\"width:100%;padding:5%;\">
                                             <tr>
                                                 <td class=\"detailTitle\">Select Product</td>
                                                 <td>
-                                                    <input type=\"file\" name=\"img\">
+                                                    <input type=\"file\" name=\"productImage\" id=\"productImage\">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -245,7 +249,7 @@
                                             <tr>
                                                 <td class=\"detailTitle\">Sale</td>
                                                 <td>
-                                                    <input type=\"radio\" name=\"sale\" value=\"regular\">Regular<br>
+                                                    <input type=\"radio\" name=\"sale\" value=\"regular\" checked=\"checked\">Regular<br>
                                                     <input type=\"radio\" name=\"sale\" value=\"sale\">Sale<br>
                                                 </td>
                                             </tr>

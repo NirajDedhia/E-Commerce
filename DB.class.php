@@ -4,7 +4,7 @@ class DB{
     private $db;
 
     function __construct() {
-        try{
+        try {
             $this->db = new PDO ("mysql:host=localhost;dbname=ecomm",'root','');
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
@@ -14,7 +14,7 @@ class DB{
     }
 
     function getAllProducts($pageNumber = 4) {
-        try{
+        try {
             include "Product.class.php";
             $products = array();
             $query = "SELECT * FROM product WHERE quantity > 0 ORDER BY salePrice desc";
@@ -35,7 +35,7 @@ class DB{
     }
 
     function getAllProduct($pageNumber = 1) {
-        try{
+        try {
             include "Product.class.php";
             $products = array();
             $pageNumber = ($pageNumber - 1)*5;
@@ -57,7 +57,7 @@ class DB{
     } // returns all non sale products
 
     function getAllSaleProduct() {
-        try{
+        try {
             include "Product.class.php";
             $products = array();
             $stmt = $this->db->prepare("SELECT * FROM product WHERE salePrice = 1");
@@ -77,7 +77,7 @@ class DB{
     } // returns all sale products
 
     function getAllProductsinCart($userId) {
-        try{
+        try {
             include "Cart.class.php";
             $products = array();
             $queryString = "SELECT p.productId AS productId, 
@@ -108,7 +108,7 @@ class DB{
     } // returns all cart products
 
     function deleteProductFromCart($productId, $userId, $quantity) {
-        try{
+        try {
             $stmt = $this->db->prepare("DELETE FROM cart where userId = :userId AND productId = :productId ");
             $stmt->execute(array( "userId"=>$userId , "productId"=>$productId ));
             
@@ -117,10 +117,10 @@ class DB{
             die();
         }
         $this->updateProductQuantity($productId, $quantity);
-    }
+    } // Delete product from Cart
 
     function addProductInCart($productId, $userId, $quantity) {
-        try{
+        try {
             $stmt = $this->db->prepare("SELECT * FROM cart WHERE userId = :userId AND productId = :productId");
             $stmt->execute(array( "userId"=>$userId , "productId"=>$productId));
             
@@ -137,10 +137,10 @@ class DB{
             echo $e->getMessage();
             die();
         }
-    }
+    } // Add/Update product in cart
 
     function insertProductInCart($productId, $userId, $quantity) {
-        try{
+        try {
             $stmt = $this->db->prepare("INSERT INTO cart (userId, productId, quantity) VALUES (:userId, :productId, :quantity) ");
             $stmt->execute(array( "userId"=>$userId , "productId"=>$productId , "quantity"=>$quantity ));
             
@@ -149,10 +149,10 @@ class DB{
             die();
         }
         $this->updateProductQuantity($productId, -1*$quantity);
-    }
+    } // Insert product in cart
 
     function updateProductInCart($productId, $userId, $quantity) {
-        try{
+        try {
             var_dump("Hi I am here");
             $query = "UPDATE cart SET quantity = quantity + :quantity WHERE userId = :userId and productId = :productId";
             $stmt = $this->db->prepare($query);
@@ -163,10 +163,10 @@ class DB{
             die();
         }
         $this->updateProductQuantity($productId, -1*$quantity);
-    }
+    } // Update product in cart
 
     function updateProductQuantity($productId, $quantity) {
-        try{
+        try {
             $stmt = $this->db->prepare("UPDATE product SET quantity = quantity + :quantity WHERE productId = :id");
             $stmt->execute(array( "quantity"=>$quantity , "id"=>$productId ));
             
@@ -174,10 +174,33 @@ class DB{
             echo $e->getMessage();
             die();
         }
-    }
+    } // Update product quantity after adding it to cart
+
+    function clearCart($userId) {
+        try {
+            $this->updateProductTableByClearingCart();
+            $stmt = $this->db->prepare("DELETE FROM cart WHERE userId = :userId");
+            $stmt->execute(array( "userId"=>$userId ));
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            die();
+        }
+    } // Clear Cart meaning delete all products from cart
+
+    function updateProductTableByClearingCart() {
+        try {
+            $query = "UPDATE product p, cart c SET p.quantity = p.quantity + c.quantity WHERE p.productId = c.productId";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute(array( "userId"=>$userId ));
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            die();
+        }
+    } // Update Product table when cart is clear
 
     function login($username, $password) {
-        try{
+        try {
             $users = array();
             $stmt = $this->db->prepare("SELECT userId, name, username, role FROM user WHERE username= :username AND password= :password");
             $stmt->execute(array("username"=>$username, "password"=>$password));
@@ -190,35 +213,27 @@ class DB{
             echo $e->getMessage();
             die();
         }
-    }
+    } // Validate login credentials
 
     function updateProduct($id, $price, $quantity, $newSale, $oldSale) {
-        if($newSale == $oldSale)
-        {
+        if($newSale == $oldSale) {
             $this->updateProductInDB($id, $price, $quantity, $oldSale);
             return true;
         }
-        else //Sale change
-        {
+        else { //Sale change 
             $total = $this->totalProductOnSale();
-            if($newSale == 0)
-            {
+            if($newSale == 0) {
                 if(--$total < 3)
-                {
                     return false;
-                }
                 else
                 {
                     $this->updateProductInDB($id, $price, $quantity, 0);
                     return true;
                 }
             }
-            else
-            {
+            else {
                 if(++$total > 5)
-                {
                     return false;
-                }
                 else
                 {
                     $this->updateProductInDB($id, $price, $quantity, 1);
@@ -226,7 +241,7 @@ class DB{
                 }
             }
         }
-    }
+    } // Update existing product in product
 
     function deleteProduct($id, $sale) {
         if($sale == 0)
@@ -247,7 +262,7 @@ class DB{
                 return true;
             }
         }
-    }
+    } // Delete product from product
 
     function updateProductInDB($productId, $price, $quantity, $sale) {
         try{
@@ -257,7 +272,7 @@ class DB{
             echo $e->getMessage();
             die();
         }
-    }
+    } // Update product in DB
 
     function deleteProductFromDB($productId) {
         try{
@@ -271,7 +286,25 @@ class DB{
             echo $e->getMessage();
             die();
         }
-    }
+    } // Delete product from DB
+
+    function addProduct($pName, $descr, $price, $quantity, $imageName, $sale) {
+        if($sale == 1) {
+            $total = $this->totalProductOnSale();
+            if($total == 5)
+                return false;
+        }
+        try{
+            $stmt = $this->db->prepare("INSERT INTO product (productName, description, price, quantity, imageName, salePrice) VALUES (:productName, :description, :price, :quantity, :imageName, :sale) ");
+            
+            $stmt->execute(array("productName"=>$pName, "description"=>$descr, "price"=>$price, "quantity"=>$quantity, "imageName"=>$imageName, "sale"=>$sale));
+
+            return true;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            die();
+        }
+    } // Add product
 
     function totalProductOnSale() {
         try{
@@ -285,19 +318,7 @@ class DB{
             echo $e->getMessage();
             die();
         }
-    }
-
-    function addProductToSale($pName, $descr, $price, $quantity, $imageName, $sale) {
-        try{
-            $stmt = $this->db->prepare("INSERT INTO product (productName, description, price, quantity, imageName, salePrice) VALUES (:productName, :description, :price, :quantity, :imageName, :sale) ");
-            
-            $stmt->execute(array("productName"=>$pName, "description"=>$descr, "price"=>$price, "quantity"=>$quantity, "imageName"=>$imageName, "sale"=>$sale));
-
-        } catch(PDOException $e) {
-            echo $e->getMessage();
-            die();
-        }
-    }
+    } // Returns total number of products on sale
 
 }
 
